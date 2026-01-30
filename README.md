@@ -16,7 +16,7 @@ The current version of CMurphi is a refactored one:
 
 - it corrects some errors coming out with newer versions of g++
 - it supports 64-bit architectures also when using hash compaction
-- it includes [FHP-Murphi](http://mclab.di.uniroma1.it/site/index.php/software/17-fhp-murphi)
+- it includes [FHP-Murphi](http://mclab.di.uniroma1.it/site/index.php/software/17-fhp-murphi) ([Archived](https://web.archive.org/web/20230929211236/http://mclab.di.uniroma1.it/site/index.php/software/17-fhp-murphi))
 
 ## License
 

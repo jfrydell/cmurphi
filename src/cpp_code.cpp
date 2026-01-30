@@ -2656,11 +2656,11 @@ const char *ifstmt::generate_code()
 const char *caselist::generate_code()
 {
   for (exprlist * v = values; v != NULL; v = v->next)
-    fprintf(codefile, "case %s:\n", v->e->generate_code());
+    fprintf(codefile, "case %s:\n{\n", v->e->generate_code());
 
   for (stmt * b = body; b != NULL; b = b->next)
     b->generate_code();
-  fprintf(codefile, "break;\n");
+  fprintf(codefile, "break;\n}\n");
   return "ERROR!";
 }
 
