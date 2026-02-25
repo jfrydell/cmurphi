@@ -192,8 +192,8 @@ undefinestmt::undefinestmt(designator * target)
 multisetaddstmt::multisetaddstmt(designator * element, designator * target)
 :  element(element), target(target)
 {
-  Error.CondError(element->gettype() !=
-		  target->gettype()->getelementtype(),
+  Error.CondError(!type_equal(element->gettype(),
+		  target->gettype()->getelementtype()),
 		  "Multisetadd statement -- 1st argument must be of elementtype of the 2nd argument.");
 }
 
