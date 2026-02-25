@@ -846,8 +846,24 @@ const char *multisettypedecl::generate_decl()
 	    "	}\n"
 	    "    current_size++;\n"
 	    "    return i;\n"
+	    "  };\n"
+	    "  int multisetadd(int element)\n"
+	    "  {\n"
+	    "    update_size();\n"
+	    "    if (current_size >= %d) Error.Error(\"Maximum size of MultiSet (%%s) exceeded.\",name);\n"
+	    "    int i;\n"
+	    "    for (i = 0; i < %d; i++)\n"
+	    "      if (!valid[i].value())\n"
+	    "	{\n"
+	    "	  array[i] = element;\n"
+	    "	  valid[i].value(TRUE);\n"
+	    "	  break;\n"
+	    "	}\n"
+	    "    current_size++;\n"
+	    "    return i;\n"
 	    "  };\n",
-	    elementtype->generate_code(), maximum_size, maximum_size);
+	    elementtype->generate_code(), maximum_size, maximum_size,
+	    maximum_size, maximum_size);
     fprintf(codefile, "  void multisetremove(const %s_id &id)\n" "  {\n" "    update_size();\n" "    if (!valid[(int)id].value()) Error.Error(\"Internal Error: Illegal Multiset element selected.\");\n"	// Uli 10-98
 	    "    valid[(int)id].value(FALSE);\n"
 	    "    array[(int)id].undefine();\n" "    current_size--;\n"
@@ -2750,8 +2766,15 @@ const char *undefinestmt::generate_code()
   ********************/
 const char *multisetaddstmt::generate_code()
 {
-  fprintf(codefile, "%s.multisetadd(%s);\n",
-	  target->generate_code(), element->generate_code());
+  if (element->gettype() != target->gettype()->getelementtype()) {
+    // element is a subtype of the multiset's element type (e.g., adding
+    // a Cache to a Multiset of Machine); cast through int like function calls do
+    fprintf(codefile, "%s.multisetadd((int)%s);\n",
+	    target->generate_code(), element->generate_code());
+  } else {
+    fprintf(codefile, "%s.multisetadd(%s);\n",
+	    target->generate_code(), element->generate_code());
+  }
   return "ERROR!";
 }
 
