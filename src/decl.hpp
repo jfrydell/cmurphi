@@ -1203,10 +1203,11 @@ public:
   ********************/
 class aliasdecl:public decl {
   expr *ref;
+  bool force_const;
 
 public:
   // initializer
-   aliasdecl(expr * ref);
+   aliasdecl(expr * ref, bool force_const = false);
    virtual ~aliasdecl() {}
 
   // supporting routines
@@ -1218,7 +1219,7 @@ public:
   } virtual designator *getdesignator(ste * origin) const {
     return new designator(origin,
 			  ref->gettype(),
-			  ref->islvalue(),
+			  force_const ? false : ref->islvalue(),
 			  ref->hasvalue(),
 			  ref->checkundefined(), ref->getvalue());
   } virtual expr *getexpr() const {

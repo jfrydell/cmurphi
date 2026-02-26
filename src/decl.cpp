@@ -550,8 +550,8 @@ vardecl::vardecl(typedecl * type)
 /********************
   class aliasdecl
   ********************/
-aliasdecl::aliasdecl(expr * ref)
-:  decl(), ref(ref)
+aliasdecl::aliasdecl(expr * ref, bool force_const)
+:  decl(), ref(ref), force_const(force_const)
 {
 }
 

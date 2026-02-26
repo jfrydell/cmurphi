@@ -1558,11 +1558,18 @@ aliases:
 		;
 
 /* a single alias. */
-alias: 
+alias:
 		  ID ':' expr
 			{
 			  aliasdecl *adcl = new aliasdecl ( $3 );
 			  $$ = symtab->declare ( $1, adcl );
+			}
+		| CONST ID ':' expr
+			{
+			  Error.CondError(!$4->gettype()->issimple(),
+			    "Const alias is only supported for simple types.");
+			  aliasdecl *adcl = new aliasdecl ( $4, true );
+			  $$ = symtab->declare ( $2, adcl );
 			}
 		;
 
