@@ -99,11 +99,19 @@ Begin
   End;
 End;
 
--- Dummy rule to prevent deadlock at max values
-Rule "no-op"
-  a[1] = 10 & a[2] = 10 & a[3] = 10 & r.x = 10 & v = 10
+-- Test 6: set variable to const alias
+Rule "assign alias"
+  a[3] < 10 & false
 ==>
 Begin
+  Alias
+    const orig : a[3];
+    const bigger : a[3] + 1;
+    nonconst : a[3];
+  Do
+    nonconst := bigger;
+    nonconst := orig;
+  End;
 End;
 
 -- Keep the state space finite

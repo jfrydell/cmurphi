@@ -1584,7 +1584,11 @@ const char *vardecl::generate_decl()
 const char *aliasdecl::generate_decl()
 {
   if (!declared) {
-    if ((!ref->islvalue() || force_const) && ref->gettype()->issimple()) {
+    if (force_const && ref->islvalue()) {
+      fprintf(codefile, "  const %s %s = %s;\n",
+	      ref->gettype()->generate_code(),
+	      mu_name, ref->generate_code());
+    } else if (!ref->islvalue() && ref->gettype()->issimple()) {
       if (type_equal(ref->gettype(), realtype))
 	fprintf(codefile,
 		"  const double %s = %s;\n", mu_name,

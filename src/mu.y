@@ -1566,8 +1566,6 @@ alias:
 			}
 		| CONST ID ':' expr
 			{
-			  Error.CondError(!$4->gettype()->issimple(),
-			    "Const alias is only supported for simple types.");
 			  aliasdecl *adcl = new aliasdecl ( $4, true );
 			  $$ = symtab->declare ( $2, adcl );
 			}
