@@ -1589,14 +1589,16 @@ const char *aliasdecl::generate_decl()
 	      ref->gettype()->generate_code(),
 	      mu_name, ref->generate_code());
     } else if (!ref->islvalue() && ref->gettype()->issimple()) {
-      if (type_equal(ref->gettype(), realtype))
+      if (ref->checkundefined())
+	fprintf(codefile, "  const %s %s = %s;\n",
+		ref->gettype()->generate_code(),
+		mu_name, ref->generate_code());
+      else if (type_equal(ref->gettype(), realtype))
 	fprintf(codefile,
 		"  const double %s = %s;\n", mu_name,
 		ref->generate_code());
       else
 	fprintf(codefile,
-		/* BUG: BOGUS CONST INT */
-		/* is this fixed adding  ref->gettype()->issimple() */
 		"  const int %s = %s;\n", mu_name, ref->generate_code());
     } else {
       fprintf(codefile, "  %s& %s = %s;\n",

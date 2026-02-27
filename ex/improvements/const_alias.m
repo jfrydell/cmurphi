@@ -19,11 +19,20 @@ Type
     x: val_t;
     y: val_t;
   End;
+  ss_t: 0..10;
 
 Var
   a: arr_t;
   r: rec_t;
   v: val_t;
+
+Procedure test_arg(ss: ss_t);
+  Var ss2 : ss_t;
+Begin
+  Alias test_ss: ss Do
+    ss2 := test_ss;
+  EndAlias;
+End;
 
 Startstate
 Begin
