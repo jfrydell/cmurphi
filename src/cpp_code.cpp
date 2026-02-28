@@ -846,7 +846,12 @@ const char *multisettypedecl::generate_decl()
 	    "	}\n"
 	    "    current_size++;\n"
 	    "    return i;\n"
-	    "  };\n"
+	    "  };\n",
+	    elementtype->generate_code(), maximum_size, maximum_size);
+    // Generate an int overload for multisets of union types, so that
+    // subtypes can be added via (int) cast (matching function call codegen)
+    if (elementtype->gettypeclass() == typedecl::Union) {
+      fprintf(codefile,
 	    "  int multisetadd(int element)\n"
 	    "  {\n"
 	    "    update_size();\n"
@@ -862,8 +867,8 @@ const char *multisettypedecl::generate_decl()
 	    "    current_size++;\n"
 	    "    return i;\n"
 	    "  };\n",
-	    elementtype->generate_code(), maximum_size, maximum_size,
 	    maximum_size, maximum_size);
+    }
     fprintf(codefile, "  void multisetremove(const %s_id &id)\n" "  {\n" "    update_size();\n" "    if (!valid[(int)id].value()) Error.Error(\"Internal Error: Illegal Multiset element selected.\");\n"	// Uli 10-98
 	    "    valid[(int)id].value(FALSE);\n"
 	    "    array[(int)id].undefine();\n" "    current_size--;\n"
